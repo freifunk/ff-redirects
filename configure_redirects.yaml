@@ -1,0 +1,26 @@
+---
+- hosts: webservers
+  connection: local
+  become: true
+  vars_files:
+          - vars/vhosts.yaml
+  tasks:
+          - name: certificates
+            include_role:
+                name: geerlingguy.certbot
+            vars:
+                certbot_create_if_missing: true
+                certbot_auto_renew_user: root
+                certbot_create_method: standalone
+                certbot_install_method: package
+                certbot_create_standalone_stop_services:
+                        - apache2
+                certbot_certs:
+                        - email: an+email@address.de 
+                          domains: 
+                                - "{{ item.servername }}"
+            loop: "{{ apache_vhosts_ssl }}"
+          - name: vhosts
+            include_role:
+                name: gcoop-libre.apache
+
