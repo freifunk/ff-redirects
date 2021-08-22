@@ -8,3 +8,4 @@ This collection of scripts and configuration creates everything needed for redir
 2. Configure the redirects you want in `vars/main.yaml`. See the example file.
 3. run `./create_vars.py > vars/vhosts.yaml` to create the vhosts configuration
 4. run `ansible-playbook -i inventory configure_redirects.yaml` to create everything. This can take a while.
+5. copy the file `apache/410.html` to the web root folder of `zzz.freifunk.net`

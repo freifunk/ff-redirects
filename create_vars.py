@@ -54,17 +54,29 @@ with open('./vars/main.yaml') as f:
         output['apache_vhosts_ssl'].append(vhost_ssl)
 
 fallbackVhost = dict()
-fallbackVhost['servername'] = "www.freifunk.net"
+fallbackVhost['servername'] = "zzz.freifunk.net"
 fallbackVhost['serveralias'] = []
 fallbackVhost['serveralias'].append("*.freifunk.net")
+fallbackVhost['serveralias'].append("www.freifunk.net")
+fallbackVhost['redirect_to_servername'] = False
+fallbackCustomError = dict()
+fallbackCustomError['code'] = 410
+fallbackCustomError['action'] = "/410.html"
+fallbackVhost['custom_errors'] = []
+fallbackVhost['custom_errors'].append(fallbackCustomError)
 fallbackVhost['custom_rewrites'] = []
-fallbackCondition = dict()
-fallbackCondition['test_string'] = "%{HTTP_HOST}"
-fallbackCondition['pattern'] = "!^freifunk\\.net"
-fallbackCondition['flags'] = "[NC]"
+fallbackCondition1 = dict()
+fallbackCondition1['test_string'] = "%{HTTP_HOST}"
+fallbackCondition1['pattern'] = "!^freifunk\\.net"
+fallbackCondition1['flags'] = "[NC]"
+fallbackCondition2 = dict()
+fallbackCondition2['test_string'] = "%{REQUEST_URI}"
+fallbackCondition2['pattern'] = "!^/410\.html"
+fallbackCondition2['flags'] = "[NC]"
 fallbackPattern = dict()
 fallbackPattern['conditions'] = []
-fallbackPattern['conditions'].append(fallbackCondition)
+fallbackPattern['conditions'].append(fallbackCondition1)
+fallbackPattern['conditions'].append(fallbackCondition2)
 fallbackPattern['substitution'] = "-"
 fallbackPattern['flags'] = "[G]"
 fallbackPattern['pattern'] = "^.*$"
